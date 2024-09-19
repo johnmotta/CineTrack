@@ -22,6 +22,6 @@ class DetailCoordinator: Coordinator {
     }
     
     func setMovie(_ movie: Movie) {
-//        self.movie = movie
+        self.movie = movie
     }
 }
