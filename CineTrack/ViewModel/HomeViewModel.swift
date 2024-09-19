@@ -14,6 +14,7 @@ class HomeViewModel {
     var selectSegment = "Upcomming"
     
     func fetchData(_ collectionView: UICollectionView) {
+        
         switch self.section {
         case .upcomming:
             ServiceManager.shared.getUpcommingMovie { [weak self] result in
@@ -25,12 +26,18 @@ class HomeViewModel {
                 case .failure(let failure):
                     print(failure)
                 }
-                DispatchQueue.main.async {
-                    collectionView.reloadData()
-                }
-                
             }
-        case .popular: break
+        case .popular:
+            ServiceManager.shared.getPopularMovie { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case .success(let movies):
+                    self.movie = movies
+                    self.reload(collectionView)
+                case .failure(let failure):
+                    print(failure)
+                }
+            }
         case .topRated: break
         }
     }

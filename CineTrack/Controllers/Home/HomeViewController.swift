@@ -65,6 +65,7 @@ class HomeViewController: UIViewController {
         }
         
         configureViewController(viewModel.selectSegment)
+        viewModel.fetchData(homeScreen.collectionView)
     }
     
     private func configureViewController(_ text: String = "Upcomming") {
