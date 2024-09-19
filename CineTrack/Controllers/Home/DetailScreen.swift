@@ -10,53 +10,12 @@ import SDWebImage
 
 class DetailScreen: UIView {
     
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    private let imageView = ImageDefault(clipsToBounds: true)
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.textAlignment = .left
-        label.textColor = .label
-        return label
-    }()
-    
-    private let yearReleaseLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .light)
-        label.textAlignment = .left
-        label.textColor = .label
-        label.alpha = 0.8
-        return label
-    }()
-    
-    private let durationLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .light)
-        label.textAlignment = .left
-        label.textColor = .label
-        label.alpha = 0.8
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .light)
-        label.textAlignment = .left
-        label.numberOfLines = 20
-        label.textColor = .label
-        label.alpha = 0.8
-        return label
-    }()
+    private let titleLabel = LabelDefault(fontSize: 16, fontWeight: .bold)
+    private let yearReleaseLabel = LabelDefault(fontSize: 16, fontWeight: .light, opacity: 0.8)
+    private let durationLabel = LabelDefault(fontSize: 16, fontWeight: .light, opacity: 0.8)
+    private let descriptionLabel = LabelDefault(fontSize: 16, fontWeight: .light, opacity: 0.8)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -12,25 +12,9 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     static let identifier: String = String(describing: MovieCollectionViewCell.self)
     
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(systemName: "photo")?.withRenderingMode(.alwaysTemplate)
-        imageView.tintColor = .label
-        return imageView
-    }()
+    private let imageView = ImageDefault()
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textAlignment = .natural
-        label.numberOfLines = 2
-        label.text = "John Doe"
-        label.textColor = .label
-        return label
-    }()
+    private let nameLabel = LabelDefault(fontSize: 12, fontWeight: .regular, numberOfLines: 2)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
