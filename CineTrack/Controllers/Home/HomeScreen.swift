@@ -54,5 +54,4 @@ class HomeScreen: UIView {
         
         return flowLayout
     }
-
 }

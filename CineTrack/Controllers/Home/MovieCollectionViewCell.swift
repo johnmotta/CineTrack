@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
@@ -65,4 +66,27 @@ class MovieCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate(imageViewConstraints)
         NSLayoutConstraint.activate(nameLabelConstraints)
     }
+    
+    func configure(with movie: Movie) {
+        if let posterPath = movie.posterPath {
+            guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") else {
+                imageView.image = UIImage(systemName: "photo")
+                return
+            }
+            imageView.sd_setImage(with: url)
+        } else {
+            imageView.image = UIImage(systemName: "photo")
+        }
+        
+        
+        if let originalName = movie.originalName {
+            nameLabel.text = originalName
+            
+        } else if let titleName = movie.originalTitle {
+            nameLabel.text = titleName
+        } else {
+            nameLabel.text = "None"
+        }
+    }
+
 }

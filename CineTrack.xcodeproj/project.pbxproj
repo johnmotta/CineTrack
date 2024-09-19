@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		775877872C9C919D0007F478 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 775877862C9C919D0007F478 /* SDWebImage */; };
+		775877892C9C919D0007F478 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 775877882C9C919D0007F478 /* SDWebImageMapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		77C33FB92C9C458500D411AB /* CineTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CineTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				775877892C9C919D0007F478 /* SDWebImageMapKit in Frameworks */,
+				775877872C9C919D0007F478 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = CineTrack;
 			packageProductDependencies = (
+				775877862C9C919D0007F478 /* SDWebImage */,
+				775877882C9C919D0007F478 /* SDWebImageMapKit */,
 			);
 			productName = CineTrack;
 			productReference = 77C33FB92C9C458500D411AB /* CineTrack.app */;
@@ -107,6 +116,9 @@
 			);
 			mainGroup = 77C33FB02C9C458500D411AB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				775877852C9C919D0007F478 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 77C33FBA2C9C458500D411AB /* Products */;
 			projectDirPath = "";
@@ -335,6 +347,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		775877852C9C919D0007F478 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.19.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		775877862C9C919D0007F478 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 775877852C9C919D0007F478 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		775877882C9C919D0007F478 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 775877852C9C919D0007F478 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 77C33FB12C9C458500D411AB /* Project object */;
 }
