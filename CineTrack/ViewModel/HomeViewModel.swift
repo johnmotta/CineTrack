@@ -10,65 +10,50 @@ import UIKit
 class HomeViewModel {
     var movie: [Movie]?
     
-    var section = Sections.upcomming
-    var selectSegment = "Upcomming"
+    var section = Sections.upcoming
+    var selectSegment = "Upcoming"
+    
+    private let upcomming = "upcoming"
+    private let popular = "popular"
+    private let topRated = "top_rated"
     
     func fetchData(_ collectionView: UICollectionView) {
-        
         switch self.section {
-        case .upcomming:
-            ServiceManager.shared.getUpcommingMovie { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let success):
-                    self.movie = success
-                    self.reload(collectionView)
-                case .failure(let failure):
-                    print(failure)
-                }
-            }
+        case .upcoming:
+            serviceManager(collectionView, upcomming)
         case .popular:
-            ServiceManager.shared.getPopularMovie { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success(let movies):
-                    self.movie = movies
-                    self.reload(collectionView)
-                case .failure(let failure):
-                    print(failure)
-                }
-            }
+            serviceManager(collectionView, popular)
         case .topRated:
-            ServiceManager.shared.getTopratedMovie { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success(let movies):
-                    self.movie = movies
-                    self.reload(collectionView)
-                case .failure(let failure):
-                    print(failure)
-                }
-            }
+            serviceManager(collectionView, topRated)
         }
     }
     
-    private func reload(_ collectionView: UICollectionView) {
-        DispatchQueue.main.async {
-            collectionView.reloadData()
+    private func serviceManager(_ collectionView: UICollectionView, _ segment: String) {
+        ServiceManager.shared.getMovie(segment: segment) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let success):
+                self.movie = success
+                DispatchQueue.main.async {
+                    collectionView.reloadData()
+                }
+
+            case .failure(let failure):
+                print(failure)
+            }
         }
-        
     }
 }
 
 enum Sections: Int {
-    case upcomming
+    case upcoming
     case popular
     case topRated
     
     var description: String {
         switch self {
-        case .upcomming:
-            return "Upcomming"
+        case .upcoming:
+            return "Upcoming"
         case .popular:
             return "Popular"
         case .topRated:
