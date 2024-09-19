@@ -91,4 +91,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let movie = viewModel.movie?[indexPath.row] {
+            let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController())
+            detailCoordinator.setMovie(movie)
+            detailCoordinator.start()
+        }
+    }
+
 }
