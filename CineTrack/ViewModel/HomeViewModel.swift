@@ -38,7 +38,17 @@ class HomeViewModel {
                     print(failure)
                 }
             }
-        case .topRated: break
+        case .topRated:
+            ServiceManager.shared.getTopratedMovie { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case .success(let movies):
+                    self.movie = movies
+                    self.reload(collectionView)
+                case .failure(let failure):
+                    print(failure)
+                }
+            }
         }
     }
     
