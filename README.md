@@ -68,21 +68,23 @@ Ao selecionar um filme, o usuário é redirecionado para uma tela de detalhes, o
 
 ```bash
 ├── CineTrack
-│   ├── Coordinators
-│   ├── Models
-│   ├── ViewModels
-│   ├── Controllers
 │   └── Components
-│   └── Service
+│   ├── Controllers
+│   ├── Coordinator
+│   ├── Model
 │   └── Source
+│   └── Service
+│   └── View
+│   ├── ViewModel
 
-- **Coordinators**: Gerenciamento de navegação entre as telas.
-- **Models**: Estruturas de dados que representam os filmes e outros elementos.
-- **ViewModels**: Lógica de transformação dos dados para serem exibidos na view.
-- **Controllers**: ViewControllers responsáveis por exibir a interface e interagir com a ViewModel.
 - **Components**: Componentes reutilizáveis da interface, como botões e células customizadas.
-- **Service**: Configuração e chamadas de serviços de rede, como a comunicação com a API TheMovieDB.
+- **Controllers**: ViewControllers responsáveis por exibir a interface e interagir com a ViewModel.
+- **Coordinator**: Gerenciamento de navegação entre as telas.
+- **Model**: Estruturas de dados que representam os filmes e outros elementos.
 - **Source**: Arquivos fontes que fazem parte do código principal da aplicação.
+- **Service**: Configuração e chamadas de serviços de rede, como a comunicação com a API TheMovieDB.
+- **View**: Implementação das views usando UIKit e view code.
+- **ViewModel**: Lógica de transformação dos dados para serem exibidos na view.
 
 Com essa estrutura, o projeto fica bem organizado e fácil de manter!
 ## 🔄 Funcionalidades Futuras
