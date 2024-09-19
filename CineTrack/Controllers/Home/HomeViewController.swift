@@ -22,8 +22,12 @@ class HomeViewController: UIViewController {
         
         configureNavBar()
         
+        self.reloadData()
+        
         homeScreen.collectionView.delegate = self
         homeScreen.collectionView.dataSource = self
+        
+        viewModel.fetchData(homeScreen.collectionView)
     }
     
     func reloadData() {
@@ -72,7 +76,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return viewModel.movie?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -80,6 +84,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
+        if let movie = viewModel.movie?[indexPath.row] {
+            cell.configure(with: movie)
+        }
+        
         return cell
-    }    
+    }
 }
