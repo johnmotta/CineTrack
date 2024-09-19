@@ -8,20 +8,23 @@
 import Foundation
 
 enum Sections: Int {
-    case Upcomming
-    case Popular
+    case upcomming
+    case popular
+    case topRated
     
     var description: String {
         switch self {
-        case .Upcomming:
+        case .upcomming:
             return "Upcomming"
-        case .Popular:
+        case .popular:
             return "Popular"
+        case .topRated:
+            return "Top Rated"
         }
     }
 }
 
 class HomeViewModel {
-    var section = Sections.Upcomming
+    var section = Sections.upcomming
     var selectSegment = "Upcomming"
 }

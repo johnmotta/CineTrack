@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
     }
     
     private func configureNavBar() {
-        let segmentedControl = UISegmentedControl(items: [Sections.Upcomming.description, Sections.Popular.description])
+        let segmentedControl = UISegmentedControl(items: [Sections.upcomming.description, Sections.popular.description, Sections.topRated.description])
         segmentedControl.selectedSegmentTintColor = .white
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
@@ -47,12 +47,15 @@ class HomeViewController: UIViewController {
 
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case Sections.Upcomming.rawValue:
-            viewModel.selectSegment = Sections.Upcomming.description
-            viewModel.section = Sections.Upcomming
-        case Sections.Popular.rawValue:
-            viewModel.selectSegment = Sections.Popular.description
-            viewModel.section = Sections.Popular
+        case Sections.upcomming.rawValue:
+            viewModel.selectSegment = Sections.upcomming.description
+            viewModel.section = Sections.upcomming
+        case Sections.popular.rawValue:
+            viewModel.selectSegment = Sections.popular.description
+            viewModel.section = Sections.popular
+        case Sections.topRated.rawValue:
+            viewModel.selectSegment = Sections.topRated.description
+            viewModel.section = Sections.topRated
         default:
             print(#function)
         }
