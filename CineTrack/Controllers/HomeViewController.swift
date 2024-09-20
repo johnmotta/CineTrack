@@ -52,19 +52,16 @@ class HomeViewController: UIViewController {
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case Sections.upcoming.rawValue:
-            viewModel.selectSegment = Sections.upcoming.description
             viewModel.section = Sections.upcoming
         case Sections.popular.rawValue:
-            viewModel.selectSegment = Sections.popular.description
             viewModel.section = Sections.popular
         case Sections.topRated.rawValue:
-            viewModel.selectSegment = Sections.topRated.description
             viewModel.section = Sections.topRated
         default:
             print(#function)
         }
         
-        configureViewController(viewModel.selectSegment)
+        configureViewController(viewModel.section.segmentName)
         viewModel.fetchData(homeScreen.collectionView)
     }
     

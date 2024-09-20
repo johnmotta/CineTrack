@@ -9,22 +9,16 @@ import UIKit
 
 class HomeViewModel {
     var movie: [Movie]?
-    
     var section = Sections.upcoming
-    var selectSegment = "Upcoming"
-    
-    private let upcomming = "upcoming"
-    private let popular = "popular"
-    private let topRated = "top_rated"
     
     func fetchData(_ collectionView: UICollectionView) {
         switch self.section {
         case .upcoming:
-            serviceManager(collectionView, upcomming)
+            serviceManager(collectionView, section.segmentName)
         case .popular:
-            serviceManager(collectionView, popular)
+            serviceManager(collectionView, section.segmentName)
         case .topRated:
-            serviceManager(collectionView, topRated)
+            serviceManager(collectionView, section.segmentName)
         }
     }
     
@@ -41,23 +35,6 @@ class HomeViewModel {
             case .failure(let failure):
                 print(failure)
             }
-        }
-    }
-}
-
-enum Sections: Int {
-    case upcoming
-    case popular
-    case topRated
-    
-    var description: String {
-        switch self {
-        case .upcoming:
-            return "Upcoming"
-        case .popular:
-            return "Popular"
-        case .topRated:
-            return "Top Rated"
         }
     }
 }

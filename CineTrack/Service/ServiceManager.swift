@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ServiceManager {
+class ServiceManager: MovieService {
     
     static let shared = ServiceManager()
     
