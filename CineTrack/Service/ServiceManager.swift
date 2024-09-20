@@ -12,7 +12,8 @@ class ServiceManager {
     static let shared = ServiceManager()
     
     func getMovie(segment: String, completion: @escaping (Result<[Movie], NetworkError>) -> Void) {
-        let urlString = "\(Constants.baseURL)/3/movie/\(segment)?api_key=\(Constants.API)&language=en-US&page=1"
+        let deviceLanguage = Locale.preferredLanguages.first ?? "en-US"
+        let urlString = "\(Constants.baseURL)/3/movie/\(segment)?api_key=\(Constants.API)&language=\(deviceLanguage)&page=1"
         
         guard let url = URL(string: urlString) else {
             completion(.failure(.invalidURL(urlString)))
