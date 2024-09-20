@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         self.window?.rootViewController = navigationController
-        let coordinator = HomeCoordinator(navigationController: navigationController)
+        let coordinator = MainTabBarCoordinator(navigationController: navigationController)
         coordinator.start()
         
     }

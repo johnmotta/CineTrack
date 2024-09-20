@@ -9,13 +9,16 @@ import UIKit
 
 class HomeCoordinator: Coordinator {
     var navigationController: UINavigationController
+    var childCoordinators = [Coordinator]()
     
     required init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
-        let viewController = HomeViewController()
-        self.navigationController.pushViewController(viewController, animated: true)
+        let homeViewController = HomeViewController()
+        homeViewController.title = "Home"
+        homeViewController.tabBarItem.image = UIImage(systemName: "house")
+        navigationController.setViewControllers([homeViewController], animated: false)
     }
 }
