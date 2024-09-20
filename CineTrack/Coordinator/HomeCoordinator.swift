@@ -9,7 +9,6 @@ import UIKit
 
 class HomeCoordinator: Coordinator {
     var navigationController: UINavigationController
-    var childCoordinators = [Coordinator]()
     
     required init(navigationController: UINavigationController) {
         self.navigationController = navigationController
