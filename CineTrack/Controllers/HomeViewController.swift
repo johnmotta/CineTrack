@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
+        navigationItem.title = "Upcoming"
         configureNavBar()
         
         self.reloadData()
@@ -48,7 +48,7 @@ class HomeViewController: UIViewController {
         segmentedControl.selectedSegmentIndex = 0
         navigationItem.titleView = segmentedControl
     }
-
+    
     @objc func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case Sections.upcoming.rawValue:
@@ -61,14 +61,14 @@ class HomeViewController: UIViewController {
             print(#function)
         }
         
-        configureViewController(viewModel.section.segmentName)
+        configureViewController(viewModel.section.description)
         viewModel.fetchData(homeScreen.collectionView)
     }
     
-    private func configureViewController(_ text: String = "Upcomming") {
+    private func configureViewController(_ text: String = "Upcoming") {
         navigationItem.title = text
     }
-
+    
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -96,5 +96,4 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             detailCoordinator.start()
         }
     }
-
 }
