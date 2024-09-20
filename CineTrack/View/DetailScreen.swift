@@ -21,7 +21,7 @@ class DetailScreen: UIView {
         super.init(frame: frame)
         backgroundColor = .systemBackground
         addElements()
-        setConstraints()
+        configConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -36,29 +36,42 @@ class DetailScreen: UIView {
         addSubview(descriptionLabel)
     }
     
-    private func setConstraints() {
+    private func configConstraints() {
         let padding: CGFloat = 8
         
-        
-        NSLayoutConstraint.activate([
+        let imageViewConstraints = [
             imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
             imageView.widthAnchor.constraint(equalTo: widthAnchor),
-            
+        ]
+        
+        let titleLabelConstraints = [
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-
+        ]
+        
+        let yearReleaseLabelConstraints = [
             yearReleaseLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
             yearReleaseLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: padding),
-            
+        ]
+        
+        let durationLabelConstraints = [
             durationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: padding),
             durationLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-                        
+        ]
+        
+        let descriptionLabelConstraints = [
             descriptionLabel.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: padding),
             descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(imageViewConstraints)
+        NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(yearReleaseLabelConstraints)
+        NSLayoutConstraint.activate(durationLabelConstraints)
+        NSLayoutConstraint.activate(descriptionLabelConstraints)
     }
     
     func configure(with movie: Movie) {
