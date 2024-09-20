@@ -1,8 +1,7 @@
 # 🎬 CineTrack
 
-CineTrack é um aplicativo iOS que consome a API do TheMovieDB para exibir informações sobre filmes populares, próximos lançamentos e filmes mais bem avaliados. Este projeto foi desenvolvido utilizando **UIKit** com **view code** e segue os princípios do padrão **MVVM-C** (Model-View-ViewModel-Coordinator).
-
-<img src="https://i.imgur.com/YAnqtQh.png" alt="Imagem do CineTrack" width="500" height="auto"/>
+| CineTrack é um aplicativo iOS que consome a API do TheMovieDB para exibir informações sobre filmes populares, próximos lançamentos e filmes mais bem avaliados. Este projeto foi desenvolvido utilizando **UIKit** com **view code** e segue os princípios do padrão **MVVM-C** (Model-View-ViewModel-Coordinator). | ![Imagem do CineTrack](https://i.imgur.com/wk07u0P.png) |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------:|
 
 ## 📱 Funcionalidades
 
