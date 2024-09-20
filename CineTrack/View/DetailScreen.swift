@@ -41,21 +41,21 @@ class DetailScreen: UIView {
         
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
             imageView.widthAnchor.constraint(equalTo: widthAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: padding * 2),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
 
             yearReleaseLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor),
             yearReleaseLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: padding),
             
-            durationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: padding * 2),
+            durationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: padding),
             durationLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
                         
-            descriptionLabel.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: padding * 2),
+            descriptionLabel.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: padding),
             descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
         ])
