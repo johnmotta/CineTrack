@@ -76,7 +76,7 @@ Ao selecionar um filme, o usuário é redirecionado para uma tela de detalhes, o
 │   └── Service
 │   └── View
 │   ├── ViewModel
-
+```
 - **Components**: Componentes reutilizáveis da interface, como botões e células customizadas.
 - **Controllers**: ViewControllers responsáveis por exibir a interface e interagir com a ViewModel.
 - **Coordinator**: Gerenciamento de navegação entre as telas.
