@@ -8,17 +8,32 @@
 import UIKit
 
 class HomeViewModel {
-    var movies: [Movie]?
-    var favoriteMovies: [Movie]?
+    var movies: [Movie] = []
+    var favoriteMovies: [Movie] = []
     var section = Sections.upcoming
-
-    func toggleFavorite(movie: Movie) {
-        if let index = movies?.firstIndex(where: { $0.id == movie.id }) {
-            movies?[index].isFavorite?.toggle()
-            favoriteMovies = movies?.filter { $0.isFavorite == true }
+    
+    func toggleFavorite(movie: Movie, indexPath: IndexPath) {
+        let row = indexPath.row
+        movies[row].isFavorite?.toggle()
+        
+        if movies[row].isFavorite == true {
+            favoriteMovies.append(movies[row])
+        }
+        
+        if movies[row].isFavorite == false {
+            if let index = favoriteMovies.firstIndex(where: { $0.id == movies[row].id }) {
+                favoriteMovies.remove(at: index)
+            }
         }
     }
     
+    func removeFavorite(indexPah: IndexPath) {
+        favoriteMovies.remove(at: indexPah.row)
+    }
+
+    func isFavorite(movie: Movie) -> Bool {
+        return favoriteMovies.contains { $0.id == movie.id }
+    }
     func fetchData(_ collectionView: UICollectionView) {
         switch self.section {
         case .upcoming:
@@ -37,7 +52,7 @@ class HomeViewModel {
             case .success(let movies):
                 self.movies = movies.map {
                     var mutableMovie = $0
-                    mutableMovie.isFavorite = false
+                    mutableMovie.isFavorite = self.isFavorite(movie: mutableMovie)
                     return mutableMovie
                 }
                 DispatchQueue.main.async {

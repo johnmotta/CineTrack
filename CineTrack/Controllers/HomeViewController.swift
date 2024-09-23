@@ -41,6 +41,11 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.movies = viewModel.movies.map { movie in
+            var mutableMovie = movie
+            mutableMovie.isFavorite = viewModel.isFavorite(movie: mutableMovie)
+            return mutableMovie
+        }
         reloadData()
     }
     
@@ -88,7 +93,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.movies?.count ?? 0
+        return viewModel.movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -96,23 +101,21 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
-        if let movie = viewModel.movies?[indexPath.row] {
-            cell.configure(with: movie)
-            cell.onFavoriteTapped = { [weak self] in
-                guard let self = self else { return }
-                self.viewModel.toggleFavorite(movie: movie)
-                collectionView.reloadItems(at: [indexPath])
-            }
+        let movie = viewModel.movies[indexPath.row]
+        let isFavorite = viewModel.isFavorite(movie: movie)
+        cell.configure(with: movie, isFavorite: isFavorite)
+        cell.onFavoriteTapped = { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.toggleFavorite(movie: movie, indexPath: indexPath)
+            collectionView.reloadItems(at: [indexPath])
         }
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let movie = viewModel.movies?[indexPath.row] {
-            let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController())
-            detailCoordinator.setMovie(movie)
-            detailCoordinator.start()
-        }
+        let movie = viewModel.movies[indexPath.row]
+        let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController())
+        detailCoordinator.setMovie(movie)
+        detailCoordinator.start()
     }
 }

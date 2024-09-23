@@ -55,21 +55,23 @@ class FavoriteViewController: UIViewController {
 
 extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.favoriteMovies?.count ?? 0
+        viewModel.favoriteMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteTableViewCell.identifier, for: indexPath) as? FavoriteTableViewCell else {
             return UITableViewCell()
         }
-        
-        guard let movie = viewModel.favoriteMovies?[indexPath.row] else { return UITableViewCell() }
+        let movie = viewModel.favoriteMovies[indexPath.row]
+        let isFavorite = viewModel.isFavorite(movie: movie)
+        cell.configure(with: movie, isFavorite: isFavorite)
         cell.onFavoriteTapped = { [weak self] in
             guard let self = self else { return }
-            self.viewModel.toggleFavorite(movie: movie)
-            tableView.reloadData()
+            self.viewModel.removeFavorite(indexPah: indexPath)
+            print("Atualizando favoritos...")
+            self.reloadFavorites()
         }
-        cell.configure(with: movie)
+        cell.selectionStyle = .none
         return cell
     }
     
