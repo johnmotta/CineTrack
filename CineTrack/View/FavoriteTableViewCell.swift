@@ -8,11 +8,22 @@
 import UIKit
 
 class FavoriteTableViewCell: UITableViewCell {
-    
+    var onFavoriteTapped: (() -> Void)?
+
     static let identifier = String(describing: FavoriteTableViewCell.self)
     
     let image = ImageDefault(clipsToBounds: true)
     let titleLabel = LabelDefault(fontSize: 14, fontWeight: .bold)
+    
+    private let favoriteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        button.tintColor = .systemGray
+        button.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
+        return button
+    }()
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,6 +39,7 @@ class FavoriteTableViewCell: UITableViewCell {
     private func addElements() {
         contentView.addSubview(image)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(favoriteButton)
     }
     
     private func configConstraints() {
@@ -47,8 +59,14 @@ class FavoriteTableViewCell: UITableViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ]
         
+        let favoriteButtonConstraints = [
+            favoriteButton.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+        ]
+        
         NSLayoutConstraint.activate(imageConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)
+        NSLayoutConstraint.activate(favoriteButtonConstraints)
     }
     
     func configure(with movie: Movie) {
@@ -61,15 +79,22 @@ class FavoriteTableViewCell: UITableViewCell {
         } else {
             image.image = UIImage(systemName: "photo")
         }
-        
-        
+
         if let originalName = movie.originalName {
             titleLabel.text = originalName
-            
         } else if let titleName = movie.originalTitle {
             titleLabel.text = titleName
         } else {
             titleLabel.text = "None"
         }
+        
+        let imageName = movie.isFavorite ?? false ? "star.fill" : "star"
+        let tintColor = movie.isFavorite ?? false ? UIColor.systemYellow : UIColor.gray
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        favoriteButton.tintColor = tintColor
+    }
+    
+    @objc func favoriteTapped() {
+        onFavoriteTapped?()
     }
 }
