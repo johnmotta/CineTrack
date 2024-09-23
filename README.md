@@ -66,14 +66,14 @@ Ao selecionar um filme, o usuário é redirecionado para uma tela de detalhes, o
 
 ```bash
 ├── CineTrack
-│   └── Components
+│   ├── Components
 │   ├── Controllers
 │   ├── Coordinator
 │   ├── Model
-│   └── Source
-│   └── Service
-│   └── View
-│   ├── ViewModel
+│   ├── Source
+│   ├── Service
+│   ├── View
+│   └── ViewModel
 ```
 - **Components**: Componentes reutilizáveis da interface, como botões e células customizadas.
 - **Controllers**: ViewControllers responsáveis por exibir a interface e interagir com a ViewModel.
