@@ -39,6 +39,11 @@ class HomeViewController: UIViewController {
         viewModel.fetchData(homeScreen.collectionView)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+    }
+    
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.homeScreen.collectionView.reloadData()
@@ -83,7 +88,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.movie?.count ?? 0
+        return viewModel.movies?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -91,15 +96,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
-        if let movie = viewModel.movie?[indexPath.row] {
+        if let movie = viewModel.movies?[indexPath.row] {
             cell.configure(with: movie)
+            cell.onFavoriteTapped = { [weak self] in
+                guard let self = self else { return }
+                self.viewModel.toggleFavorite(movie: movie)
+                collectionView.reloadItems(at: [indexPath])
+            }
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let movie = viewModel.movie?[indexPath.row] {
+        if let movie = viewModel.movies?[indexPath.row] {
             let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController())
             detailCoordinator.setMovie(movie)
             detailCoordinator.start()
