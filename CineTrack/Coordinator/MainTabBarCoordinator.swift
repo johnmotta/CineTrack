@@ -9,6 +9,8 @@ import UIKit
 
 class MainTabBarCoordinator: Coordinator {
     var navigationController: UINavigationController
+
+    let viewModel = HomeViewModel()
     
     required init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -16,11 +18,10 @@ class MainTabBarCoordinator: Coordinator {
     
     func start() {
         let tabBarController = MainTabViewController()
-        
-        let homeCoordinator = HomeCoordinator(navigationController: UINavigationController())
+        let homeCoordinator = HomeCoordinator(navigationController: UINavigationController(), viewModel: viewModel)
         homeCoordinator.start()
         
-        let favoriteCoordinator = FavoriteCoordinator(navigationController: UINavigationController())
+        let favoriteCoordinator = FavoriteCoordinator(navigationController: UINavigationController(), viewModel: viewModel)
         favoriteCoordinator.start()
         
         tabBarController.viewControllers = [

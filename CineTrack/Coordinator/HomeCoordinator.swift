@@ -7,15 +7,17 @@
 
 import UIKit
 
-class HomeCoordinator: Coordinator {
+class HomeCoordinator {
     var navigationController: UINavigationController
+    var viewModel: HomeViewModel
     
-    required init(navigationController: UINavigationController) {
+    required init(navigationController: UINavigationController, viewModel: HomeViewModel) {
         self.navigationController = navigationController
+        self.viewModel = viewModel
     }
     
     func start() {
-        let homeViewController = HomeViewController()
+        let homeViewController = HomeViewController(viewModel: viewModel)
         homeViewController.title = "Home"
         homeViewController.tabBarItem.image = UIImage(systemName: "house")
         navigationController.setViewControllers([homeViewController], animated: false)
