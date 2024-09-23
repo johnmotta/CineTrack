@@ -10,7 +10,6 @@ import SDWebImage
 
 class MovieCollectionViewCell: UICollectionViewCell {
     var onFavoriteTapped: (() -> Void)?
-    var isFavorited = false
     
     static let identifier: String = String(describing: MovieCollectionViewCell.self)
     
@@ -70,7 +69,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate(nameLabelConstraints)
     }
     
-    func configure(with movie: Movie) {
+    func configure(with movie: Movie, isFavorite: Bool = false) {
         if let posterPath = movie.posterPath {
             guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") else {
                 imageView.image = UIImage(systemName: "photo")
@@ -91,8 +90,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
             nameLabel.text = "None"
         }
         
-        let imageName = movie.isFavorite ?? false ? "star.fill" : "star"
-        let tintColor = movie.isFavorite ?? false ? UIColor.systemYellow : UIColor.gray
+        let imageName = isFavorite ? "star.fill" : "star"
+        let tintColor = isFavorite ? UIColor.systemYellow : UIColor.gray
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = tintColor
 

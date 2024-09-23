@@ -69,7 +69,7 @@ class FavoriteTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(favoriteButtonConstraints)
     }
     
-    func configure(with movie: Movie) {
+    func configure(with movie: Movie, isFavorite: Bool) {
         if let posterPath = movie.posterPath {
             guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") else {
                 image.image = UIImage(systemName: "photo")
@@ -88,8 +88,8 @@ class FavoriteTableViewCell: UITableViewCell {
             titleLabel.text = "None"
         }
         
-        let imageName = movie.isFavorite ?? false ? "star.fill" : "star"
-        let tintColor = movie.isFavorite ?? false ? UIColor.systemYellow : UIColor.gray
+        let imageName = isFavorite ? "star.fill" : "star"
+        let tintColor = isFavorite ? UIColor.systemYellow : UIColor.gray
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = tintColor
     }
