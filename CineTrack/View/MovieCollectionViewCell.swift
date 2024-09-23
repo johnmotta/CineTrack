@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 
 class MovieCollectionViewCell: UICollectionViewCell {
-    
+    var onFavoriteTapped: (() -> Void)?
     var isFavorited = false
     
     static let identifier: String = String(describing: MovieCollectionViewCell.self)
@@ -90,15 +90,15 @@ class MovieCollectionViewCell: UICollectionViewCell {
         } else {
             nameLabel.text = "None"
         }
-    }
-    
-    @objc func favoriteTapped() {
-        isFavorited.toggle()
         
-        let imageName = isFavorited ? "star.fill" : "star"
-        let tintColor = isFavorited ? UIColor.systemYellow : UIColor.gray
-        
+        let imageName = movie.isFavorite ?? false ? "star.fill" : "star"
+        let tintColor = movie.isFavorite ?? false ? UIColor.systemYellow : UIColor.gray
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
         favoriteButton.tintColor = tintColor
+
+    }
+    
+    @objc func favoriteTapped() {        
+        onFavoriteTapped?()
     }
 }
