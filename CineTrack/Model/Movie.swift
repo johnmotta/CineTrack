@@ -18,7 +18,8 @@ struct Movie: Codable {
     let releaseDate: String?
     let voteAverage: Double
     let genreIds: [Int]?
-
+    var isFavorite: Bool?
+    
     init(
         id: Int = 0,
         mediaType: String? = nil,
@@ -29,7 +30,8 @@ struct Movie: Codable {
         voteCount: Int? = nil,
         releaseDate: String? = nil,
         voteAverage: Double = 0.0,
-        genreIds: [Int]? = nil
+        genreIds: [Int]? = nil,
+        isFavorite: Bool? = nil
     ) {
         self.id = id
         self.mediaType = mediaType
@@ -41,6 +43,7 @@ struct Movie: Codable {
         self.releaseDate = releaseDate
         self.voteAverage = voteAverage
         self.genreIds = genreIds
+        self.isFavorite = isFavorite
     }
 
     enum CodingKeys: String, CodingKey {
@@ -54,5 +57,6 @@ struct Movie: Codable {
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
         case genreIds = "genre_ids"
+        case isFavorite
     }
 }
