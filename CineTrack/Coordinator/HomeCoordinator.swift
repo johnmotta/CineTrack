@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeCoordinator {
+class HomeCoordinator: Coordinator {
     var navigationController: UINavigationController
     var viewModel: HomeViewModel
     

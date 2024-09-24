@@ -10,9 +10,11 @@ import UIKit
 class DetailCoordinator: Coordinator {
     var navigationController: UINavigationController
     private var movie = Movie()
+    var viewModel: HomeViewModel
     
-    required init(navigationController: UINavigationController) {
+    required init(navigationController: UINavigationController, viewModel: HomeViewModel) {
         self.navigationController = navigationController
+        self.viewModel = viewModel
     }
     
     func start() {

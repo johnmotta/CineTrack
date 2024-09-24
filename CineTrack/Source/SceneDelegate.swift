@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         navigationController.isNavigationBarHidden = true
         self.window?.rootViewController = navigationController
-        let coordinator = MainTabBarCoordinator(navigationController: navigationController)
+        let viewModel = HomeViewModel()
+        let coordinator = MainTabBarCoordinator(navigationController: navigationController, viewModel: viewModel)
         coordinator.start()
         
     }

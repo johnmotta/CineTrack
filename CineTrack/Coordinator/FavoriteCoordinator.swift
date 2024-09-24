@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoriteCoordinator {
+class FavoriteCoordinator: Coordinator {
     var navigationController: UINavigationController
     var viewModel: HomeViewModel
     

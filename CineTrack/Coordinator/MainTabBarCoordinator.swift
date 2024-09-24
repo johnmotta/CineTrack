@@ -10,10 +10,11 @@ import UIKit
 class MainTabBarCoordinator: Coordinator {
     var navigationController: UINavigationController
 
-    let viewModel = HomeViewModel()
+    let viewModel:  HomeViewModel
     
-    required init(navigationController: UINavigationController) {
+    required init(navigationController: UINavigationController, viewModel: HomeViewModel) {
         self.navigationController = navigationController
+        self.viewModel = viewModel
     }
     
     func start() {
@@ -22,7 +23,7 @@ class MainTabBarCoordinator: Coordinator {
         let homeCoordinator = HomeCoordinator(navigationController: UINavigationController(), viewModel: viewModel)
         homeCoordinator.start()
         
-        let searchCoordinator = SearchCoordinator(navigationController: UINavigationController())
+        let searchCoordinator = SearchCoordinator(navigationController: UINavigationController(), viewModel: viewModel)
         searchCoordinator.start()
         
         let favoriteCoordinator = FavoriteCoordinator(navigationController: UINavigationController(), viewModel: viewModel)
