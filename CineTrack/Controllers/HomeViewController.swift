@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    var homeScreen = HomeScreen()
+    var movieCollectionView = MovieCollectionView()
     var viewModel: HomeViewModel
     
     init(viewModel: HomeViewModel) {
@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     }
     
     override func loadView() {
-        self.view = homeScreen
+        self.view = movieCollectionView
     }
     
     override func viewDidLoad() {
@@ -33,10 +33,10 @@ class HomeViewController: UIViewController {
         
         self.reloadData()
         
-        homeScreen.collectionView.delegate = self
-        homeScreen.collectionView.dataSource = self
+        movieCollectionView.collectionView.delegate = self
+        movieCollectionView.collectionView.dataSource = self
         
-        viewModel.fetchData(homeScreen.collectionView)
+        viewModel.fetchData(movieCollectionView.collectionView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +51,7 @@ class HomeViewController: UIViewController {
     
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
-            self?.homeScreen.collectionView.reloadData()
+            self?.movieCollectionView.collectionView.reloadData()
         }
     }
     
@@ -81,7 +81,7 @@ class HomeViewController: UIViewController {
         }
         
         configureViewController(viewModel.section.description)
-        viewModel.fetchData(homeScreen.collectionView)
+        viewModel.fetchData(movieCollectionView.collectionView)
     }
     
     private func configureViewController(_ text: String = "Upcoming") {
@@ -114,7 +114,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = viewModel.movies[indexPath.row]
-        let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController())
+        let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController(), viewModel: viewModel)
         detailCoordinator.setMovie(movie)
         detailCoordinator.start()
     }
