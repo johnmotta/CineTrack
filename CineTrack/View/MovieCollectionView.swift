@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeScreen: UIView {
+class MovieCollectionView: UIView {
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createThreeColumnFlowLayout())
