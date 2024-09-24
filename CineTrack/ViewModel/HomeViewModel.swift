@@ -34,6 +34,7 @@ class HomeViewModel {
     func isFavorite(movie: Movie) -> Bool {
         return favoriteMovies.contains { $0.id == movie.id }
     }
+    
     func fetchData(_ collectionView: UICollectionView) {
         switch self.section {
         case .upcoming:
@@ -47,7 +48,7 @@ class HomeViewModel {
     
     private func serviceManager(_ collectionView: UICollectionView, _ segment: String) {
         ServiceManager.shared.getMovie(segment: segment) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success(let movies):
                 self.movies = movies.map {
@@ -57,6 +58,40 @@ class HomeViewModel {
                 }
                 DispatchQueue.main.async {
                     collectionView.reloadData()
+                }
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+    
+    func searchData(_ tableView: UITableView) {
+        ServiceManager.shared.getDiscoverMovies { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let movies):
+                self.movies = movies.map {
+                    var mutableMovie = $0
+                    mutableMovie.isFavorite = self.isFavorite(movie: mutableMovie)
+                    return mutableMovie
+                }
+                DispatchQueue.main.async {
+                    tableView.reloadData()
+                }
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+    
+    func search(query: String) {
+        ServiceManager.shared.search(with: query) { result in
+            switch result {
+            case .success(let movies):
+                self.movies = movies.map {
+                    var mutableMovie = $0
+                    mutableMovie.isFavorite = self.isFavorite(movie: mutableMovie)
+                    return mutableMovie
                 }
             case .failure(let failure):
                 print(failure)
