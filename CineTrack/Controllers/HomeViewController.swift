@@ -41,11 +41,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.movies = viewModel.movies.map { movie in
-            var mutableMovie = movie
-            mutableMovie.isFavorite = viewModel.isFavorite(movie: mutableMovie)
-            return mutableMovie
-        }
+        viewModel.movies = viewModel.movies
         reloadData()
     }
     
