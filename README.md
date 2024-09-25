@@ -87,8 +87,8 @@ Ao selecionar um filme, o usuário é redirecionado para uma tela de detalhes, o
 Com essa estrutura, o projeto fica bem organizado e fácil de manter!
 ## 🔄 Funcionalidades Futuras
 
+- [x] Implementação de buscas por filmes.
 - [ ] Integração com CoreData para salvar filmes favoritos.
-- [ ] Implementação de buscas por filmes.
 
 ## 🧑‍💻 Contribuições
 
