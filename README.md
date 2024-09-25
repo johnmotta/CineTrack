@@ -85,8 +85,10 @@ Ao selecionar um filme, o usuário é redirecionado para uma tela de detalhes, o
 - **ViewModel**: Lógica de transformação dos dados para serem exibidos na view.
 
 Com essa estrutura, o projeto fica bem organizado e fácil de manter!
+
 ## 🔄 Funcionalidades Futuras
 
+- [x] Implementação de botão para favoritar/desfavoritar filmes diretamente na interface.
 - [x] Implementação de buscas por filmes.
 - [ ] Integração com CoreData para salvar filmes favoritos.
 
