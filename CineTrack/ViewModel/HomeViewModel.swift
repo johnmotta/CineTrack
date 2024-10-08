@@ -11,6 +11,8 @@ class HomeViewModel {
     var movies: [Movie] = []
     var favoriteMovies: [Movie] = []
     var section = Sections.upcoming
+    var cast: [Cast] = []
+    
     
     func toggleFavorite(movie: Movie, indexPath: IndexPath) {
         let row = indexPath.row
@@ -65,24 +67,37 @@ class HomeViewModel {
         }
     }
     
-    func searchData(_ tableView: UITableView) {
-        ServiceManager.shared.getDiscoverMovies { [weak self] result in
-            guard let self else { return }
+    func fetchCast(movieId: Int) {
+        ServiceManager.shared.fetchMovieCast(movieId: movieId) { result in
             switch result {
-            case .success(let movies):
-                self.movies = movies.map {
-                    var mutableMovie = $0
-                    mutableMovie.isFavorite = self.isFavorite(movie: mutableMovie)
-                    return mutableMovie
-                }
+            case .success(let cast):
                 DispatchQueue.main.async {
-                    tableView.reloadData()
+                    self.cast = cast
                 }
-            case .failure(let failure):
-                print(failure)
+            case .failure(let error):
+                print("Erro ao carregar elenco: \(error)")
             }
         }
     }
+    
+//    func searchData(_ tableView: UITableView) {
+//        ServiceManager.shared.getDiscoverMovies { [weak self] result in
+//            guard let self else { return }
+//            switch result {
+//            case .success(let movies):
+//                self.movies = movies.map {
+//                    var mutableMovie = $0
+//                    mutableMovie.isFavorite = self.isFavorite(movie: mutableMovie)
+//                    return mutableMovie
+//                }
+//                DispatchQueue.main.async {
+//                    tableView.reloadData()
+//                }
+//            case .failure(let failure):
+//                print(failure)
+//            }
+//        }
+//    }
     
     func search(query: String) {
         ServiceManager.shared.search(with: query) { result in
