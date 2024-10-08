@@ -7,36 +7,46 @@
 
 import Foundation
 
-class ServiceManager: MovieService {
+class ServiceManager {
     
     static let shared = ServiceManager()
     
-    func getMovie(segment: String, completion: @escaping (Result<[Movie], NetworkError>) -> Void) {
+    private func buildURL(baseURL: String, endpoint: String, api: String, queryItems: [URLQueryItem]) -> URL? {
         let deviceLanguage = Locale.preferredLanguages.first ?? "en-US"
-        let urlString = "\(Constants.baseURL)/3/movie/\(segment)?api_key=\(Constants.API)&language=\(deviceLanguage)&page=1"
+        var components = URLComponents(string: "\(baseURL)/3/\(endpoint)")
         
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.invalidURL(urlString)))
+        var allQueryItems = [
+            URLQueryItem(name: "api_key", value: api),
+            URLQueryItem(name: "language", value: deviceLanguage)
+        ]
+        allQueryItems.append(contentsOf: queryItems)
+        components?.queryItems = allQueryItems
+        return components?.url
+    }
+    
+    private func fetchData<T: Decodable>(baseURL: String, endpoint: String, api: String, additionalQueryItems: [URLQueryItem] = [], completion: @escaping (Result<T, NetworkError>) -> Void) {
+        guard let url = buildURL(baseURL: baseURL, endpoint: endpoint, api: api, queryItems: additionalQueryItems) else {
+            completion(.failure(.invalidURL(endpoint)))
             return
         }
         
         let session = URLSession.shared
         
         let task = session.dataTask(with: url) { data, _, error in
-            if let error {
+            if let error = error {
                 completion(.failure(.networkFailure(error)))
                 return
             }
             
-            guard let data else {
+            guard let data = data else {
                 completion(.failure(.noData))
                 return
             }
             
             do {
                 let decoder = JSONDecoder()
-                let result = try decoder.decode(MoviesResponse.self, from: data)
-                completion(.success(result.results))
+                let result = try decoder.decode(T.self, from: data)
+                completion(.success(result))
             } catch {
                 completion(.failure(.decodingError(error)))
             }
@@ -44,69 +54,48 @@ class ServiceManager: MovieService {
         task.resume()
     }
     
-    func getDiscoverMovies(completion: @escaping (Result<[Movie], NetworkError>) -> Void) {
-        let deviceLanguage = Locale.preferredLanguages.first ?? "en-US"
-        let urlString = "\(Constants.baseURL)/3/discover/movie?api_key=\(Constants.API)&language=\(deviceLanguage)&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
-        
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.invalidURL(urlString)))
-            return
-        }
-        
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: url) { data, _, error in
-            if let error {
-                completion(.failure(.networkFailure(error)))
-                return
-            }
-            
-            guard let data else {
-                completion(.failure(.noData))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let result = try decoder.decode(MoviesResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                completion(.failure(.decodingError(error)))
+    func getMovie(segment: String, completion: @escaping (Result<[Movie], NetworkError>) -> Void) {
+        let endpoint: String
+        endpoint = "movie/\(segment)"
+        let additionalQueryItems = [URLQueryItem(name: "page", value: "1")]
+        fetchData(baseURL: Constants.baseURL, endpoint: endpoint, api: Constants.API, additionalQueryItems: additionalQueryItems) { (result: Result<MovieResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
+                completion(.success(response.results))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        task.resume()
+    }
+    
+    func fetchMovieDetails(movieId: Int, completion: @escaping (Result<Movie, NetworkError>) -> Void) {
+        let endpoint = "movie/\(movieId)"
+        fetchData(baseURL: Constants.baseURL, endpoint: endpoint, api: Constants.API, completion: completion)
+    }
+    
+    func fetchMovieCast(movieId: Int, completion: @escaping (Result<[Cast], NetworkError>) -> Void) {
+        let endpoint = "movie/\(movieId)/credits"
+        fetchData(baseURL: Constants.baseURL, endpoint: endpoint, api: Constants.API) { (result: Result<Credits, NetworkError>) in
+            switch result {
+            case .success(let credits):
+                completion(.success(credits.cast))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     func search(with query: String, completion: @escaping (Result<[Movie], NetworkError>) -> Void) {
-        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }
-        
-        let urlString = "\(Constants.baseURL)/3/search/movie?api_key=\(Constants.API)&query=\(query)"
-        
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.invalidURL(urlString)))
-            return
-        }
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: url) { data, _, error in
-            if let error {
-                completion(.failure(.networkFailure(error)))
-                return
-            }
-            
-            guard let data else {
-                completion(.failure(.noData))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let result = try decoder.decode(MoviesResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                completion(.failure(.decodingError(error)))
+        guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        let endpoint = "search/movie"
+        let additionalQueryItems = [URLQueryItem(name: "query", value: encodedQuery)]
+        fetchData(baseURL: Constants.baseURL, endpoint: endpoint, api: Constants.API, additionalQueryItems: additionalQueryItems) { (result: Result<MovieResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
+                completion(.success(response.results))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        task.resume()
     }
 }
