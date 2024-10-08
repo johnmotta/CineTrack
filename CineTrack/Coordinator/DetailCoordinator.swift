@@ -19,7 +19,7 @@ class DetailCoordinator: Coordinator {
     
     func start() {
         let detailVC = DetailViewController()
-        detailVC.configure(movie: movie)
+        detailVC.configure(movie: movie, cast: viewModel.cast)
         navigationController.pushViewController(detailVC, animated: true)
     }
     
