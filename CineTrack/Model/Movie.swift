@@ -12,51 +12,47 @@ struct Movie: Codable {
     let mediaType: String?
     let originalName: String?
     let originalTitle: String?
+    let title: String?
     let posterPath: String?
+    let backdropPath: String?
     let overview: String?
     let voteCount: Int?
     let releaseDate: String?
     let voteAverage: Double
-    let genreIds: [Int]?
+    let genres: [Genre]?
+    let runtime: Int?
     var isFavorite: Bool?
+    let credits: Credits?
     
-    init(
-        id: Int = 0,
-        mediaType: String? = nil,
-        originalName: String? = nil,
-        originalTitle: String? = nil,
-        posterPath: String? = nil,
-        overview: String? = nil,
-        voteCount: Int? = nil,
-        releaseDate: String? = nil,
-        voteAverage: Double = 0.0,
-        genreIds: [Int]? = nil,
-        isFavorite: Bool? = nil
-    ) {
-        self.id = id
-        self.mediaType = mediaType
-        self.originalName = originalName
-        self.originalTitle = originalTitle
-        self.posterPath = posterPath
-        self.overview = overview
-        self.voteCount = voteCount
-        self.releaseDate = releaseDate
-        self.voteAverage = voteAverage
-        self.genreIds = genreIds
-        self.isFavorite = isFavorite
+    init(empty: Bool = true) {
+        self.id = 0
+        self.mediaType = nil
+        self.originalName = nil
+        self.originalTitle = nil
+        self.title = nil
+        self.posterPath = nil
+        self.backdropPath = nil
+        self.overview = nil
+        self.voteCount = nil
+        self.releaseDate = nil
+        self.voteAverage = 0.0
+        self.genres = nil
+        self.runtime = nil
+        self.isFavorite = false
+        self.credits = nil
     }
 
+
     enum CodingKeys: String, CodingKey {
-        case id
+        case id, title, overview, genres, runtime, credits
         case mediaType = "media_type"
         case originalName = "original_name"
         case originalTitle = "original_title"
         case posterPath = "poster_path"
-        case overview
+        case backdropPath = "backdrop_path"
         case voteCount = "vote_count"
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
-        case genreIds = "genre_ids"
         case isFavorite
     }
 }
