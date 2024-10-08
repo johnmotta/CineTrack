@@ -5,8 +5,7 @@ CineTrack é um aplicativo iOS que consome a API do TheMovieDB para exibir infor
 
 | Lista de Filmes Populares | Detalhes do Filme | Filmes Favoritos | Buscar Filmes |
 |:-------------------------:|:-----------------:|:----------------:|:-------------:|
-| <img src="https://i.imgur.com/ObwVmaz.png" width="200"/> | <img src="https://i.imgur.com/2IWBP2Z.png" width="200"/> | <img src="https://i.imgur.com/QDds6cG.png" width="200"/> |  <img src="https://i.imgur.com/9Hvw8zw.png" width="200"/> |
-
+| <img src="https://i.imgur.com/ObwVmaz.png" width="200"/> | <img src="https://i.imgur.com/LYMRUkb.png" width="200"/> | <img src="https://i.imgur.com/QDds6cG.png" width="200"/> |  <img src="https://i.imgur.com/9Hvw8zw.png" width="200"/> |
 
 ## 📱 Funcionalidades
 
