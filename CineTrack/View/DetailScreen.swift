@@ -116,6 +116,7 @@ class DetailScreen: UIView {
 
             titleStack.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: padding),
             titleStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            titleStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
 
             infoStack.topAnchor.constraint(equalTo: titleStack.bottomAnchor, constant: padding),
             infoStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
