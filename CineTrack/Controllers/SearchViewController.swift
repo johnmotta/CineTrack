@@ -39,27 +39,37 @@ class SearchViewController: UIViewController {
         
         view.addSubview(discoverTable)
         
+        self.reloadData()
+        
         discoverTable.delegate = self
         discoverTable.dataSource = self
         
         navigationItem.searchController = searchController
         navigationController?.navigationBar.tintColor = .label
-        
-        viewModel.searchData(discoverTable)
-        
+                
         searchController.searchResultsUpdater = self
+        
+        if let searchResultsController = searchController.searchResultsController as? SearchResultsViewController {
+            searchResultsController.delegate = self
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        discoverTable.reloadData()
+        reloadData()
     }
 
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         discoverTable.frame = view.bounds
+    }
+    
+    private func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.discoverTable.reloadData()
+        }
     }
 }
 
@@ -88,6 +98,18 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = viewModel.movies[indexPath.row]
+        
+        viewModel.fetchCast(movieId: movie.id) {
+            DispatchQueue.main.async {
+                let detailCoordinator = DetailCoordinator(navigationController: self.navigationController ?? UINavigationController(), viewModel: self.viewModel)
+                detailCoordinator.setMovie(movie)
+                detailCoordinator.start()
+            }
+        }
+    }
 }
 
 extension SearchViewController: UISearchResultsUpdating {
@@ -104,6 +126,22 @@ extension SearchViewController: UISearchResultsUpdating {
         resultsController.viewModel = viewModel
         DispatchQueue.main.async {
             resultsController.searchScreen.collectionView.reloadData()
+        }
+    }
+}
+
+extension SearchViewController: SearchResultsViewControllerDelegate {
+    func searchResultsViewController(_ controller: SearchResultsViewController, didSelectMovie movie: Movie) {
+        viewModel.fetchCast(movieId: movie.id) {
+            DispatchQueue.main.async {
+                guard let navigationController = self.navigationController else {
+                    print("NavigationController is nil")
+                    return
+                }
+                let detailCoordinator = DetailCoordinator(navigationController: navigationController, viewModel: self.viewModel)
+                detailCoordinator.setMovie(movie)
+                detailCoordinator.start()
+            }
         }
     }
 }

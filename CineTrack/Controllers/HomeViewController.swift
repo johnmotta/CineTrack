@@ -111,12 +111,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = viewModel.movies[indexPath.row]
         
-        DispatchQueue.main.async {
-            self.viewModel.fetchCast(movieId: movie.id)
+        viewModel.fetchCast(movieId: movie.id) {
+            DispatchQueue.main.async {
+                let detailCoordinator = DetailCoordinator(navigationController: self.navigationController ?? UINavigationController(), viewModel: self.viewModel)
+                detailCoordinator.setMovie(movie)
+                detailCoordinator.start()
+            }
         }
-        
-        let detailCoordinator = DetailCoordinator(navigationController: navigationController ?? UINavigationController(), viewModel: viewModel)
-        detailCoordinator.setMovie(movie)
-        detailCoordinator.start()
     }
 }

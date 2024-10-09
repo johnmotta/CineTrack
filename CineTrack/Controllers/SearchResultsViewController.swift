@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol SearchResultsViewControllerDelegate: AnyObject {
+    func searchResultsViewController(_ controller: SearchResultsViewController, didSelectMovie movie: Movie)
+}
+
+
 class SearchResultsViewController: UIViewController {
     
     var viewModel: HomeViewModel
+
+    weak var delegate: SearchResultsViewControllerDelegate?
+
     
     public let searchScreen = MovieCollectionView()
     
@@ -27,18 +35,27 @@ class SearchResultsViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(searchScreen)
            
+        self.reloadData()
+        
         searchScreen.collectionView.delegate = self
         searchScreen.collectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        searchScreen.collectionView.reloadData()
+        
+        reloadData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         searchScreen.frame = view.bounds
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.searchScreen.collectionView.reloadData()
+        }
     }
 }
 
@@ -64,5 +81,14 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         }
         return cell
     }
+     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = viewModel.movies[indexPath.row]
         
+        viewModel.fetchCast(movieId: movie.id) {
+            DispatchQueue.main.async {
+                self.delegate?.searchResultsViewController(self, didSelectMovie: movie)
+            }
+        }
+    }
 }

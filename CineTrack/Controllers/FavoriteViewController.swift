@@ -78,4 +78,17 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = viewModel.movies[indexPath.row]
+        
+        viewModel.fetchCast(movieId: movie.id) {
+            DispatchQueue.main.async {
+                let detailCoordinator = DetailCoordinator(navigationController: self.navigationController ?? UINavigationController(), viewModel: self.viewModel)
+                detailCoordinator.setMovie(movie)
+                detailCoordinator.start()
+            }
+        }
+    }
+
 }
