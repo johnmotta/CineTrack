@@ -67,19 +67,21 @@ class HomeViewModel {
         }
     }
     
-    func fetchCast(movieId: Int) {
+    func fetchCast(movieId: Int, completion: @escaping () -> Void) {
         ServiceManager.shared.fetchMovieCast(movieId: movieId) { result in
             switch result {
             case .success(let cast):
                 DispatchQueue.main.async {
                     self.cast = cast
+                    completion()
                 }
             case .failure(let error):
                 print("Erro ao carregar elenco: \(error)")
+                completion()
             }
         }
     }
-    
+
 //    func searchData(_ tableView: UITableView) {
 //        ServiceManager.shared.getDiscoverMovies { [weak self] result in
 //            guard let self else { return }
